@@ -2,35 +2,29 @@
 #define SETOFFIGURES_H
 
 #include "affTransformations.h"
-
+#include "smartPtr.h"
 class SetOfFigures
 {
-    public:
+public:
     SetOfFigures(Figure *figure);
 
     vector<Coord> getCoordinatesOfFigure();
     vector<Coord> getVectors(Figure *a);
-    vector<Type> getLengthOfVectors(Figure *a);
+    vector<Type> getLengthOfVectors(Figure *a, bool upd);
 
-    Type getPerimetr(Figure *a);
-    Type getArea(Figure *a);
+    vector<Coord> updateLength(Figure *a, bool upd);
 
-    Type getRelation(Figure *a);
 
-    //~SetOfFigures();
+    Type getPerimetr(Figure *a, bool update);
+    Type getArea(Figure *a, bool update);
 
-    /*
-    void insertValue (int);
-    int findValue (int);
-    void removeValue(int);
-    void removeAll();
+    Type getRelation(Figure *a,bool update);
 
-    void outputTree();
-    void outputSet();
-*/
-//SetOfFigures &operator=(const SetOfFigures &orig);
+    vector<Coord> scale(Figure *a);
+    Type **getOriginVector(Figure *a);
+    Type **getAffTransformation();
 
-    private:
+private:
     SetOfFigures();
     Figure *figure;
 

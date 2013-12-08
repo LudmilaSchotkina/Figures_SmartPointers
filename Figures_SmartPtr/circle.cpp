@@ -1,55 +1,28 @@
 #include "affTransformations.h"
 #include "setOfFigures.h"
 
-
 vector<Coord> Circle::getCoord()
 {
-    getCenter();
-    getRadius();
-}
-Coord Circle::getCenter()
-{
     Coord value;
     vector <Coord> coordinates;
 
+    fstream fileSquare;
+    fileSquare.open("circle.txt");
 
-    fstream filecircle;
-    filecircle.open("circle.txt");
-
-    if(!filecircle)
-    cerr<<"Error 404"<<endl;
-
-
-    while(!filecircle.eof())
+    if(!fileSquare)
     {
-        filecircle>>value.x;
-        filecircle>>value.y;
-    }
-    filecircle.close();
-
-    return value;
-}
-Type Circle::getRadius()
-{
-    Coord value;
-    vector <Coord> coordinates;
-    Type radius;
-
-    fstream filecircle;
-    filecircle.open("circle.txt");
-
-    if(!filecircle)
         cerr<<"Error 404"<<endl;
-
-    while(!filecircle.eof())
-    {
-        filecircle>>value.x;
-        filecircle>>value.y;
-        filecircle>>radius;
     }
-    filecircle.close();
 
-    return radius;
+    while(!fileSquare.eof())
+    {
+        fileSquare>>value.x;
+        fileSquare>>value.y;
+        coordinates.push_back(value);
+    }
+    fileSquare.close();
+
+    return coordinates;
 }
 
 vector<Coord> Circle::buildVectors (Figure *figure)
@@ -59,50 +32,53 @@ vector<Coord> Circle::buildVectors (Figure *figure)
     coordinates=circle->getCoord();
 
     vector <Coord> vect;
-
-    vector<Coord>::iterator i;
     Coord a;
-    Type i_coord=0;
-
+    vector<Coord>::iterator i;
     for (i=coordinates.begin()+1; i<coordinates.end(); ++i)
     {
-        a.x=(*i).x - coordinates.at(i_coord).x;
-        a.y=(*i).y - coordinates.at(i_coord).y;
+        a.x=(*i).x - coordinates.at(0).x;
+        a.y=(*i).y - coordinates.at(0).y;
         vect.push_back(a);
-        ++i_coord;
     }
-
-    a.x=coordinates.front().x - coordinates.back().x;
-    a.y=coordinates.front().y - coordinates.back().y;
-    vect.push_back(a);
-
+/*
+    for (i=vect.begin(); i<vect.end(); ++i)
+        cout<<(*i).x<<" "<<(*i).y<<endl;
+*/
     return vect;
 }
 
-Type Circle::perimetr(Figure *figure)
+Type Circle::perimetr(Figure *figure, bool update)
 {
-    Circle *circle = (Circle *)figure;
-    Coord pos=circle->getCenter();
-    Type r=circle->getRadius();
 
+    SetOfFigures obj(figure);
+    vector<Type> sides;
+    sides=obj.getLengthOfVectors(figure, update);
 
-    Type perim=2*PI*r;
+    Type perim=0;
+    vector<Type>::iterator i;
+    i=sides.begin();
+    double a=*i;
+    double b=*(++i);
+        perim=4*(PI*a*b+(a-b)*(a-b))/(a+b);
 
-    cout<<"Perimetr = "<<perim<<endl;
     return perim;
 }
 
-Type Circle::area(Figure *figure)
+Type Circle::area(Figure *figure, bool update)
 {
-    Circle *circle=(Circle *)figure;
-    Coord pos=circle->getCenter();
-    Type r=circle->getRadius();
+    SetOfFigures obj(figure);
+    vector<Type> sides;
+    sides=obj.getLengthOfVectors(figure, update);
 
-    Type a=PI*r*r;
+    Type ar=0;
+    vector<Type>::iterator i;
 
-    cout<<"Area = "<<a<<endl;
+    i=sides.begin();
+    double a=*i;
+    double b=*(++i);
+        ar=PI*a*b;
 
-    return a;
+    return ar;
 }
 
 

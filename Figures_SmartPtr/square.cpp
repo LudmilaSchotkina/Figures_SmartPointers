@@ -1,7 +1,6 @@
 #include "affTransformations.h"
 #include "setOfFigures.h"
 
-
 vector<Coord> Square::getCoord()
 {
     Coord value;
@@ -25,7 +24,6 @@ vector<Coord> Square::getCoord()
 
     return coordinates;
 }
-
 
 vector<Coord> Square::buildVectors (Figure *figure)
 {
@@ -54,36 +52,36 @@ vector<Coord> Square::buildVectors (Figure *figure)
     return vect;
 }
 
-Type Square::perimetr(Figure *figure)
+Type Square::perimetr(Figure *figure, bool update)
 {
-     SetOfFigures a(figure);
-   // Square *square = (Square *)figure;
+    SetOfFigures a(figure);
     vector<Type> sides;
-    sides=a.getLengthOfVectors(figure);
+    sides=a.getLengthOfVectors(figure, update);
 
     Type perim=0;
     vector<Type>::iterator i;
 
     for (i=sides.begin(); i<sides.end(); ++i)
+    {
         perim+=(*i);
+    }
+    cout<<endl;
 
-    cout<<"Perimetr = "<<perim<<endl;
     return perim;
 }
 
-Type Square::area(Figure *figure)
+Type Square::area(Figure *figure, bool update)
 {
     SetOfFigures obj(figure);
     vector<Type> sides;
-    sides=obj.getLengthOfVectors(figure);
+    sides=obj.getLengthOfVectors(figure, update);
 
     Type a=0;
     vector<Type>::iterator i;
+    i=sides.begin();
 
-    for (i=sides.begin(); i<sides.end(); ++i)
-        a=(*i)*(*i);
+    a=(*i)*(*(++i));
 
-    cout<<"Area = "<<a<<endl;
     return a;
 }
 

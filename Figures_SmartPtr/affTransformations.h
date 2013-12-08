@@ -17,7 +17,7 @@ class FigureException: public exception
 {
     const char *what() const throw()
     {
-        return "error";
+        return "Wrong input data";
     }
 };
 
@@ -30,23 +30,26 @@ struct Coord
 class Figure
 {
 public:
+
     vector<Coord> getCoordinates();
     vector<Coord> buildFigure(Figure *a);
-    vector<Type> length(Figure *a);
 
-    Type getP(Figure *a);
-    Type getA(Figure *a);
+    vector<Type> length(Figure *a, bool upd);
+    vector<Coord> updLength(Figure *a, bool upd);
+
+    Type getP(Figure *a, bool update); //get perimetr
+    Type getA(Figure *a, bool update); //get area
+    vector<Coord> changeSize(Figure *a);
+
+    Type **getVector(Figure *a);
+    Type **affTransf();
 
 private:
-    vector<Figure> setOfFigures;
-
     virtual vector<Coord> getCoord() = 0;
     virtual vector<Coord> buildVectors(Figure *a) = 0;
 
-
-    virtual Type perimetr(Figure *figure) = 0;
-    virtual Type area(Figure *figure) = 0;
-
+    virtual Type perimetr(Figure *figure, bool update) = 0;
+    virtual Type area(Figure *figure, bool update) = 0;
 
 };
 
@@ -54,56 +57,34 @@ private:
 
 class Triangle: public Figure
 {
-public:
-    // Square();
-    // ~Square();
-    //Type getP();
-    //Type getA();
-
-
-
     vector<Coord> getCoord();
     vector<Coord> buildVectors(Figure *figure);
-    //vector <Type> lengthOfVectors(Figure *a);
 
-    Type perimetr(Figure *figure);
-    Type area(Figure *figure);
-
-private:
-    Type perim, areaOfFigure;
+    Type perimetr(Figure *figure, bool update);
+    Type area(Figure *figure, bool update);
 };
 
 //////////////////////////////////////////////
 
 class Square: public Figure
 {
-public:
-
     vector<Coord> getCoord();
     vector<Coord> buildVectors(Figure *figure);
 
-    Type perimetr(Figure *figure);
-    Type area(Figure *figure);
-
-private:
-    Type perim, areaOfFigure;
+    Type perimetr(Figure *figure, bool update);
+    Type area(Figure *figure, bool update);
 };
+
+////////////////////////////////////////////
 
 class Circle: public Figure
 {
-public:
-
     vector<Coord> getCoord();
-    Coord getCenter();
-    Type getRadius();
-
     vector<Coord> buildVectors(Figure *figure);
 
-    Type perimetr(Figure *figure);
-    Type area(Figure *figure);
+    Type perimetr(Figure *figure, bool update);
+    Type area(Figure *figure, bool update);
 
-private:
-    Type perim, areaOfFigure;
 };
 
 
